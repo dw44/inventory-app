@@ -7,7 +7,7 @@ const CompanySchema = new Schema({
   systems: [{type: Schema.Types.ObjectId, ref: 'System', required: true}]  
 });
 
-SystemSchema.virtual('url').get(function () {
+CompanySchema.virtual('url').get(function () {
   return `/inventory/company/${this._id}`;
 });
 

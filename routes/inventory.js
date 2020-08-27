@@ -1,6 +1,9 @@
 const express = require('express');
-const system = require('../models/system');
 const router = express.Router();
+
+const systemController = require('../controllers/systemController');
+const companyController = require('../controllers/companyController');
+const unitController = require('../controllers/unitController');
 
 // ---------- System Routes ----------
 
