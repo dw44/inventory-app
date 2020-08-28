@@ -1,8 +1,41 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+nav {
+  background-color: #00B7FF;
+  height: 120px;
+  min-width: 480px;
 }
 
-a {
-  color: #00B7FF;
+nav > h1 {
+  width: 85%;
+  margin: 0 auto;
+  font-size: 2em;
+  color: #f3f4f8;
+  font-family: 'Russo One', sans-serif;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+nav > ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 88px;
+}
+
+nav > ul > li {
+  display: inline-block;
+  text-align: center;
+  font-family: 'Alata', sans-serif;
+  padding: 5px;
+}
+
+nav a {
+  color: #e6e7e8;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #fff;
+  text-decoration: underlines;
 }

@@ -4,19 +4,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var expressLayouts = require('express-ejs-layouts');
 
 var indexRouter = require('./routes/index');
 var inventoryRouter = require('./routes/inventory');
-const { mongo } = require('mongoose');
 
 var app = express();
 
 const mongoDB = 'mongodb+srv://admin:axeinhand444@cluster0.x2sxj.azure.mongodb.net/<dbname>?retryWrites=true&w=majority';
 
+
 mongoose.connect(mongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB Connection Error!'));
 
@@ -24,6 +27,7 @@ db.on('error', console.error.bind(console, 'MongoDB Connection Error!'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(expressLayouts);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
