@@ -2,7 +2,7 @@ const System = require('../models/system');
 const Company = require('../models/company');
 const Unit = require('../models/unit');
 
-const validator = require('express-validator');
+const {body, validationResult, sanitizeBody} = require('express-validator');
 const async = require('async');
 
 exports.index = (req, res, next) => {
@@ -55,44 +55,37 @@ exports.createSystemGET = (req, res, next) => {
     });
 };
 
-exports.createSystemPOST = (req, res, next) => {
-  res.send('Pending!!!')
-};
+exports.createSystemPOST = [
+  // Validate
+  body('name', '"Name" field required').trim().isLength({min: 1}).trim().escape(),
+  body('company').trim().isLength({min: 1}),
+  body('released', `Release year needs to be between 1972 and ${new Date().getFullYear()}`).isNumeric({min: 1972, max: new Date().getFullYear()}),
+  body('generation', 'Generation needs to be between 1 and 8').isNumeric({min: 1972, max: new Date().getFullYear()}),
+  body('storageMedium').trim().isLength({min: 1}).trim().escape(),
+  
+  // Handle
+  (req, res, next) => {
+    const errors = validationResult(req);
 
-// exports.createSystemPOST = [
-//   // Validate
-//   validator.body('name', '"Name" field required').trim().isLength({min: 1}),
-//   validator.body('company').trim().isLength({min: 1}),
-//   validator.body('released', `Release year needs to be between 1972 and ${new Date().getFullYear()}`).isNumeric({min: 1972, max: new Date().getFullYear()}),
-//   validator.body('generation', 'Generation needs to be between 1 and 8').isNumeric({min: 1972, max: new Date().getFullYear()}),
-//   validator.body('storageMedium').trim().isLength({min: 1}),
+    const system = new System({
+      name: req.body.name,
+      company: req.body.company,
+      released: req.body.released,
+      generation: req.body.generation,
+      storageMedium: req.body.storageMedium
+    });
 
-//   // Sanitize
-//   validator.sanitizeBody('*').escape(),
-
-//   // Handle
-//   (req, res, next) => {
-//     const errors = validator.validationResult(req);
-
-//     const system = new System({
-//       name: req.body.name,
-//       company: req.body.company,
-//       released: req.body.released,
-//       generation: req.body.generation,
-//       storageMedium: req.body.storageMedium
-//     });
-
-//     if (!errors.isEmpty()) {
-//       res.render('systemForm', {title: 'Add System', system, error: errors.array()});
-//       return;
-//     } else {
-//       book.save(err => {
-//         if (err) return next(err);
-//         res.redirect(system.url);
-//       });
-//     }
-//   }
-// ];
+    if (!errors.isEmpty()) {
+      res.render('systemForm', {title: 'Add System', system, error: errors.array()});
+      return;
+    } else {
+      system.save(err => {
+        if (err) return next(err);
+        res.redirect(system.url);
+      });
+    }
+  }
+];
 
 exports.updateSystemGET = (req, res, next) => {
   res.send('PENDING'); 
