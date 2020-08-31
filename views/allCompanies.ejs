@@ -1,0 +1,7 @@
+<h1><%= title %></h1>
+
+<ul class="mx-4 my-4">
+<% companies.forEach(comp => { %>
+  <li><a href="<%= comp.url %>"><%- comp.name %></a></li>
+<% }) %>
+</ul>

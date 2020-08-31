@@ -6,6 +6,7 @@ const SystemSchema = new Schema({
   name: {type: String, required: true},
   company: {type: Schema.Types.ObjectId, ref: 'Company', required: true},
   released: {type: Number, min: 1972, max: new Date().getFullYear(), required: true},
+  generation: {type: Number, min: 1, max: 8},
   storageMedium: {type: String, enum: ['Cartridge', 'CD', 'DVD', 'Blu Ray', 'Proprietary Optical'], required: true}
 });
 

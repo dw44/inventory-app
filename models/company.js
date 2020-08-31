@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const CompanySchema = new Schema({
   name: {type: String, required: true},
-  systems: [{type: Schema.Types.ObjectId, ref: 'System', required: true}]  
+  systems: [{type: Schema.Types.ObjectId, ref: 'System'}]  
 });
 
 CompanySchema.virtual('url').get(function () {

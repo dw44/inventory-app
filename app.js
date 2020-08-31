@@ -11,7 +11,7 @@ var inventoryRouter = require('./routes/inventory');
 
 var app = express();
 
-const mongoDB = 'mongodb+srv://admin:axeinhand444@cluster0.x2sxj.azure.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const mongoDB = 'mongodb+srv://admin:axeinhand444@cluster0.x2sxj.azure.mongodb.net/retrovision-inventory?retryWrites=true&w=majority';
 
 
 mongoose.connect(mongoDB, {

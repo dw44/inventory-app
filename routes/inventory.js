@@ -13,14 +13,14 @@ router.get('/', systemController.index);
 // GET - display all systems
 router.get('/systems', systemController.allSystems);
 
-// GET - display a system
-router.get('/system/:id', systemController.showSystem);
-
 // GET - create new system entry
 router.get('/system/create', systemController.createSystemGET);
 
 // POST - create new system entry
 router.post('/system/create', systemController.createSystemPOST);
+
+// GET - display a system
+router.get('/system/:id', systemController.showSystem);
 
 // GET - update system entry
 router.get('/system/:id/update', systemController.updateSystemGET);
@@ -39,14 +39,14 @@ router.post('/system/:id/delete', systemController.deleteSystemPOST);
 // GET - display all 
 router.get('/companies', companyController.showAllCompanies);
 
-// GET - show a company
-router.get('/company/:id', companyController.showCompany);
-
 // GET - create new company entry
 router.get('/company/create', companyController.createCompanyGET);
 
 // POST - create new company entry
 router.post('/company/create', companyController.createCompanyPOST);
+
+// GET - show a company
+router.get('/company/:id', companyController.showCompany);
 
 // GET - update company page
 router.get('/company/:id/update', companyController.updateCompanyGET);
