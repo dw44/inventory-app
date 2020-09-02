@@ -65,14 +65,14 @@ router.post('/company/:id/delete', companyController.deleteCompanyPOST);
 // GET - display all 
 router.get('/units', unitController.showAllUnits);
 
-// GET - show a company
-router.get('/unit/:id', unitController.showUnit);
-
 // GET - create new company entry
 router.get('/unit/create', unitController.createUnitGET);
 
 // POST - create new company entry
 router.post('/unit/create', unitController.createUnitPOST);
+
+// GET - show a company
+router.get('/unit/:id', unitController.showUnit);
 
 // GET - update company page
 router.get('/unit/:id/update', unitController.updateUnitGET);

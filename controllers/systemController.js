@@ -16,8 +16,8 @@ exports.index = (req, res, next) => {
 };
 
 exports.allSystems = (req, res, next) => {
-  System.find({}, 'company')
-    .populate('company')
+  System.find({})
+    .populate('companies')
     .exec((err, systems) => {
       if (err) return next(err);
       res.render('allSystems', {title: 'All Systems', systems});

@@ -37,10 +37,15 @@ exports.createCompanyGET = (req, res, next) => {// let companies = {};
 exports.createCompanyPOST = [
   body('name')
     .not().isEmpty()
-    .isAlphanumeric()
     .isLength({min: 1})
     .trim()
     .escape(),
+  body('country')
+    .isLength({min: 1})
+    .trim()
+    .escape(),
+  body('founded')
+    .isNumeric({min: 1972, max: new Date().getFullYear()}),
 
     (req, res, next) => {
       const errors = validationResult(req);
@@ -49,7 +54,9 @@ exports.createCompanyPOST = [
         return;
       } else {
         const company = new Company({
-          name: req.body.name
+          name: req.body.name,
+          country: req.body.country,
+          founded: req.body.founded
         });
         company.save(err => {
           if (err) return next(err);

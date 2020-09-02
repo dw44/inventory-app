@@ -1,3 +1,5 @@
 <h1><%= title %></h1>
 
-<h2><%= systems %></h2>
+<% Object.keys(systems).forEach(key => { %>
+  <a href="<%= systems[key].url %>"><h2><%= systems[key].name %></h2></a>
+<% }) %>
