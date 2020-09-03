@@ -13,26 +13,26 @@ router.get('/', systemController.index);
 // GET - display all systems
 router.get('/systems', systemController.allSystems);
 
-// GET - create new system entry
-router.get('/system/create', systemController.createSystemGET);
-
-// POST - create new system entry
-router.post('/system/create', systemController.createSystemPOST);
-
-// GET - display a system
-router.get('/system/:id', systemController.showSystem);
-
 // GET - update system entry
 router.get('/system/:id/update', systemController.updateSystemGET);
 
 // POST - update system entry
 router.post('/system/:id/update', systemController.updateSystemPOST);
 
+// GET - create new system entry
+router.get('/system/create', systemController.createSystemGET);
+
+// POST - create new system entry
+router.post('/system/create', systemController.createSystemPOST);
+
 // GET - delete a system
 router.get('/system/:id/delete', systemController.deleteSystemGET);
 
 // POST - delete a system
 router.post('/system/:id/delete', systemController.deleteSystemPOST);
+
+// GET - display a system
+router.get('/system/:id', systemController.showSystem);
 
 // ---------- Company Routes ----------
 
@@ -44,9 +44,6 @@ router.get('/company/create', companyController.createCompanyGET);
 
 // POST - create new company entry
 router.post('/company/create', companyController.createCompanyPOST);
-
-// GET - show a company
-router.get('/company/:id', companyController.showCompany);
 
 // GET - update company page
 router.get('/company/:id/update', companyController.updateCompanyGET);
@@ -60,6 +57,9 @@ router.get('/company/:id/delete', companyController.deleteCompanyGET);
 // POST - delete company page
 router.post('/company/:id/delete', companyController.deleteCompanyPOST);
 
+// GET - show a company
+router.get('/company/:id', companyController.showCompany);
+
 // ---------- Unit Routes ----------
 
 // GET - display all 
@@ -70,9 +70,6 @@ router.get('/unit/create', unitController.createUnitGET);
 
 // POST - create new company entry
 router.post('/unit/create', unitController.createUnitPOST);
-
-// GET - show a company
-router.get('/unit/:id', unitController.showUnit);
 
 // GET - update company page
 router.get('/unit/:id/update', unitController.updateUnitGET);
@@ -85,5 +82,8 @@ router.get('/unit/:id/delete', unitController.deleteUnitGET);
 
 // POST - delete company page
 router.post('/unit/:id/delete', unitController.deleteUnitPOST);
+
+// GET - show a company
+router.get('/unit/:id', unitController.showUnit);
 
 module.exports = router;

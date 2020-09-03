@@ -3,32 +3,33 @@
   <form class="py-3" action="" method="POST">
     <div class="form-group">
       <label for="name">System Name:</label>
-      <input class="form-control" type="text" name="name" required="true" required>
+      <input class="form-control" type="text" name="name" value="<%= typeof system === 'undefined' ? '' : system.name %>" required>
     </div>
     <div class="form-group">
       <label for="company">Manufacturer:</label>
-      <select class="form-control" name="company" id="company" required="true" required>
-        <% Object.keys(companyList).forEach(comp => { %>
-          <option value="<%= companyList[comp]._id %>"><%= companyList[comp].name %></option>
+      <select class="form-control" name="company" id="company" required>
+        <% Object.keys(companyList).forEach(comp => { %> 
+          <option 
+            value="<%= companyList[comp]._id %>" <%= (typeof system !== 'undefined' && (String(system.company._id) === String(companyList[comp]._id))) ? "selected" : null %> ><%= companyList[comp].name %></option>
         <% }) %>
       </select>
     </div>
     <div class="form-group">
       <label for="released">Released:</label>
-      <input class="form-control" type="number" name="released" id="released" min="1972" max="<%= new Date().getFullYear() %>" required>
+      <input class="form-control" type="number" name="released" id="released" min="1972" max="<%= new Date().getFullYear() %>" value="<%= typeof system === 'undefined' ? '' : system.released %>" required>
     </div>
     <div class="form-group">
       <label for="generation">Generation:</label>
-      <input class="form-control" type="number" name="generation" id="generation" min="1" max="8" required>
+      <input class="form-control" type="number" name="generation" id="generation" min="1" max="8" value="<%= typeof system === 'undefined' ? '' : system.generation %>" required>
     </div>
     <div class="form-group">
-      <label for="storageMedium">Manufacturer:</label>
+      <label for="storageMedium">Storage Medium:</label>
       <select class="form-control" name="storageMedium" id="storageMedium" required>
-        <option value="CD">CD</option>
-        <option value="Cartridge">Cartridge</option>
-        <option value="DVD">DVD</option>
-        <option value="Blu Ray">Blu Ray</option>
-        <option value="Proprietary Optical">Proprietary Optical Disc</option>
+        <option value="Blu Ray" <%= (typeof system !== 'undefined' && system.storageMedium === 'Blu Ray') ? 'selected' : null %> >Blu Ray</option>
+        <option value="Cartridge" <%= (typeof system !== 'undefined' && system.storageMedium === 'Cartridge') ? 'selected' : null %> >Cartridge</option>
+        <option value="CD" <%= (typeof system !== 'undefined' && system.storageMedium === 'CD') ? 'selected' : null %> >CD</option>
+        <option value="DVD" <%= (typeof system !== 'undefined' && system.storageMedium === 'DVD') ? 'selected' : null %> >DVD</option>
+        <option value="Proprietary Optical" <%= (typeof system !== 'undefined' && system.storageMedium === 'Proprietary Optical') ? 'selected' : null %> >Proprietary Optical</option>
       </select>
     </div>
     <input type="submit" value="Submit" class="btn btn-primary">

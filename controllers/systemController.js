@@ -17,7 +17,8 @@ exports.index = (req, res, next) => {
 
 exports.allSystems = (req, res, next) => {
   System.find({})
-    .populate('companies')
+    .populate('company')
+    .sort([['company.name', 'ascending']])
     .exec((err, systems) => {
       if (err) return next(err);
       res.render('allSystems', {title: 'All Systems', systems});
@@ -42,7 +43,7 @@ exports.showSystem = (req, res, next) => {
       err.status = 404;
       return next(err);
     }
-    res.render('showSystem', {title: results.system.name, system: results.system, units: results.units});
+    res.render('showSystem', {title: `${results.system.company.name} ${results.system.name}`, system: results.system, units: results.units});
   });
 };
 
@@ -88,7 +89,18 @@ exports.createSystemPOST = [
 ];
 
 exports.updateSystemGET = (req, res, next) => {
-  res.send('PENDING'); 
+  async.parallel({
+    system: callback => {System.findById(req.params.id).populate('company').exec(callback)},
+    companies: callback => {Company.find(callback)} 
+  }, (err, results) => {
+    if (err) return next(err);
+    if (results.system === null) {
+      const err = new Error('System Not Found!');
+      err.status = 404;
+      return next(err);
+    }
+    res.render('systemForm', {title: 'Edit System Details', system: results.system, companyList: results.companies});
+  });
 };
 
 exports.updateSystemPOST = (req, res, next) => {

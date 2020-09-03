@@ -1,5 +1,7 @@
-<h1><%= title %></h1>
+<div class="container my-5">
+  <h1><%= title %></h1>
 
-<% Object.keys(systems).forEach(key => { %>
-  <a href="<%= systems[key].url %>"><h2><%= systems[key].name %></h2></a>
-<% }) %>
+  <% Object.keys(systems).forEach(key => { %>
+    <a href="<%= systems[key].url %>"><h2><%= systems[key].company.name + ' ' + systems[key].name %></h2></a>
+  <% }) %>
+</div>
