@@ -4,6 +4,7 @@ const Unit = require('../models/unit');
 
 const {body, validationResult, sanitizeBody} = require('express-validator');
 const async = require('async');
+const company = require('../models/company');
 
 exports.index = (req, res, next) => {
   async.parallel({
@@ -49,7 +50,6 @@ exports.showSystem = (req, res, next) => {
 
 exports.createSystemGET = (req, res, next) => {
   Company.find()
-    .populate('companies')
     .exec((err, companyList) => {
       if (err) return next(err);
       res.render('systemForm', {title: 'Add System', companyList});
@@ -103,9 +103,38 @@ exports.updateSystemGET = (req, res, next) => {
   });
 };
 
-exports.updateSystemPOST = (req, res, next) => {
-  res.send('PENDING'); 
-};
+exports.updateSystemPOST = [
+  body('name', '"Name" field required').trim().isLength({min: 1}).trim().escape(),
+  body('company').trim().isLength({min: 1}),
+  body('released', `Release year needs to be between 1972 and ${new Date().getFullYear()}`).isNumeric({min: 1972, max: new Date().getFullYear()}),
+  body('generation', 'Generation needs to be between 1 and 8').isNumeric({min: 1972, max: new Date().getFullYear()}),
+  body('storageMedium').trim().isLength({min: 1}).trim().escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const system = new System({
+      _id: req.params.id,
+      name: req.body.name,
+      company: req.body.company,
+      released: req.body.released,
+      generation: req.body.generation,
+      storageMedium: req.body.storageMedium,
+    });
+
+    if (!errors.isEmpty()) {
+      Company.find()
+        .exec((err, companyList) => {
+          if (err) return next(err);
+          res.render('systemForm', {companyList, system, errors: errors.array()});
+        });
+    } else {
+      System.findByIdAndUpdate(req.params.id, system, {}, (err, thisSystem) => {
+        res.redirect(thisSystem.url);
+      });
+    }
+  }
+];
 
 exports.deleteSystemGET = (req, res, next) => {
   res.send('PENDING'); 

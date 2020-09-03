@@ -1,6 +1,11 @@
 <div class="container my-5">
   <h1><%= title %> </h1>
   <h2><%= system.company.name %> </h2>
+  <h2><%= system.name %> </h2>
+  <h3>Released: <%= system.released %> </h3>
+  <h3>Generation: <%= system.generation %> </h3>
+  <h3>Storage Medium: <%= system.storageMedium %> </h3>
+
   <a href="<%= `${system._id}/update` %> ">Edit</a>
   <a href="">Delete</a>
 </div>
