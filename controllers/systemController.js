@@ -137,10 +137,30 @@ exports.updateSystemPOST = [
 ];
 
 exports.deleteSystemGET = (req, res, next) => {
-  res.send('PENDING'); 
+  async.parallel({
+    system: callback => {System.findById(req.params.id).populate('company').exec(callback)},
+    units: callback => {Unit.find({'system': req.params.id}).exec(callback)}
+  }, (err, results) => {
+    if (err) return next(err);
+    res.render('systemDelete', {title: 'Delete System Entry', system: results.system, units: results.units});
+  });
 };
 
 exports.deleteSystemPOST = (req, res, next) => {
-  res.send('PENDING'); 
+  async.parallel({
+    system: callback => {System.findById(req.body.id).populate('company').exec(callback)},
+    units: callback => {Unit.find({'system': req.body.id}).exec(callback)}
+  }, (err, results) => {
+    if (err) return next(err);
+    if (results.units.length > 0) {
+      res.render('systemDelete', {title: 'Delete System Entry', system: results.system, units: results.units});
+      return;
+    } else {
+      System.findByIdAndRemove(req.body.id, err => {
+        if (err) return next(err);
+        res.redirect('/inventory/systems');
+      });
+    }
+  });
 };
 
