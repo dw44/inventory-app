@@ -101,9 +101,29 @@ exports.updateCompanyPOST = [
 ];
 
 exports.deleteCompanyGET = (req, res, next) => {
-  res.send('PENDING');
+  async.parallel({
+    company: callback => {Company.findById(req.params.id).exec(callback)},
+    systems: callback => {System.find({'company': req.params.id}).exec(callback)}
+  }, (err, results) => {
+    if (err) return next(err);
+    res.render('companyDelete', {title: 'Delete Manufacturer', company: results.company, systems: results.systems});
+  });
 };
 
 exports.deleteCompanyPOST = (req, res, next) => {
-  res.send('PENDING');
+  async.parallel({
+    company: callback => {Company.findById(req.body.id).exec(callback)},
+    systems: callback => {System.find({'company': req.body.id}).exec(callback)}
+  }, (err, results) => {
+    if (err) return next(err);
+    if (results.systems.length > 1) {
+      res.render('companyDelete', {title: 'Delete Manufacturer', company: results.company, systems: results.systems});
+      return;
+    } else {
+      Company.findByIdAndRemove(req.body.id, err => {
+        if (err) return next(err);
+        res.redirect('/inventory/companies');
+      });
+    }
+  });
 };

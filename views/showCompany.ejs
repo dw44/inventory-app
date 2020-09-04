@@ -1,5 +1,7 @@
 <div class="container">
   <h1><%= title %></h1>
-  <a href="<%= `${company._id}/update` %> ">Edit</a>
-  <a href="">Delete</a>
+  <h2>Founded: <%= company.founded %> </h2>
+  <h2>Country: <%= company.country %> </h2>
+  <a href="<%= `${company._id}/update` %>">Edit</a>
+  <a href="<%= `${company._id}/delete` %>">Delete</a>
 </div>
