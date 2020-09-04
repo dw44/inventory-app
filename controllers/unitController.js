@@ -3,6 +3,7 @@ const System = require('../models/system');
 const Company = require('../models/company');
 
 const { body, validationResult } = require('express-validator'); 
+const async = require('async');
 
 exports.showAllUnits = (req, res, next) => {
   Unit.find()
@@ -76,7 +77,18 @@ exports.createUnitPOST = [
 ];
 
 exports.updateUnitGET = (req, res, next) => {
-  res.send('PENDING');
+  async.parallel({
+    unit: callback => {Unit.findById(req.params.id).populate('system').exec(callback)},
+    systems: callback => {System.find(callback)}
+  }, (err, results) => {
+    if (err) return next(err);
+    if (results.unit === null) {
+      const err = new Error('Unit Not Found!');
+      err.status = 404;
+      return next(err);
+    }
+    res.render('unitForm', {title: 'Update Unit Data', unit: results.unit, systemList: results.systems});
+  });
 };
 
 exports.updateUnitPOST = (req, res, next) => {
