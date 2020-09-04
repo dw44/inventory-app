@@ -1,1 +1,9 @@
-<%= title %> 
+<div class="container my-5">
+  <h1 class="my-3"><%= title %></h1> 
+  <h2 class="my-3"><%= unit.system.name %> </h2>
+  <h3 class="my-3">Region: <%= unit.region %></h3>
+  <h3 class="my-3">Condition: <%= unit.region %></h3>
+  <h3 class="my-3">Price: $<%= unit.price %></h3>
+  <a href="<%= `${unit._id}/update` %> ">Edit</a>
+  <!-- <a href="">Delete</a> -->
+</div>

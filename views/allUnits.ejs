@@ -1,1 +1,6 @@
-<h1><%= title %> </h1>
+<div class="container my-5">
+  <h1><%= title %></h1>
+  <% Object.keys(units).forEach(key => { %>
+    <a href="<%= units[key].url %>"><p><%= units[key].system.name %></p></a>
+  <% }) %>
+</div>

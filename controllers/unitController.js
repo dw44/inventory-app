@@ -6,7 +6,7 @@ const { body, validationResult } = require('express-validator');
 
 exports.showAllUnits = (req, res, next) => {
   Unit.find()
-    .populate('systems')
+    .populate('system')
     .exec((err, systemUnits) => {
       res.render('allUnits', {title: 'Units in Stock', units: systemUnits});
     });
@@ -14,7 +14,7 @@ exports.showAllUnits = (req, res, next) => {
 
 exports.showUnit = (req, res, next) => {
   Unit.findById(req.params.id)
-    .populate('systems')
+    .populate('system')
     .exec((err, unit) => {
       if (err) return next(err);
       if (unit === null) {
@@ -22,7 +22,7 @@ exports.showUnit = (req, res, next) => {
         err.status = 404;
         return next(err);
       }
-      res.render('showUnit', {title: unit.systems.name, unit: unit});
+      res.render('showUnit', {title: 'Unit', unit: unit});
     });
 };
 
