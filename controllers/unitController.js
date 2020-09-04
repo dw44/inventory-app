@@ -91,9 +91,48 @@ exports.updateUnitGET = (req, res, next) => {
   });
 };
 
-exports.updateUnitPOST = (req, res, next) => {
-  res.send('PENDING');
-};
+exports.updateUnitPOST = [
+  body('system')
+    .isLength({min: 1})
+    .trim()
+    .escape(),
+  body('condition')
+    .isLength({min: 1})
+    .trim()
+    .escape(),
+  body('region')
+    .isLength({min: 1})
+    .trim()
+    .escape(),
+  body('price')
+    .not().isEmpty()
+    .isNumeric()
+    .trim()
+    .escape(),
+    
+    (req, res, next) => {
+      const errors = validationResult(req);
+      const unit = new Unit({
+        _id: req.params.id,
+        system: req.body.system,
+        condition: req.body.condition,
+        region: req.body.region,
+        price: req.body.price
+      });
+      
+      if (!errors.isEmpty()) {
+        System.find()
+          .exec((err, systemList) => {
+            if (err) return next(err);
+            res.render('unitForm', {title: 'Update Unit Data', systemList, unit, errors: errors.array()});
+          });
+      } else {
+        Unit.findByIdAndUpdate(req.params.id, unit, {}, (err, thisUnit) => {
+          res.redirect(thisUnit.url);
+        });
+      }
+    }
+];
 
 exports.deleteUnitGET = (req, res, next) => {
   res.send('PENDING');
