@@ -4,6 +4,7 @@ const Company = require('../models/company');
 
 const { body, validationResult } = require('express-validator'); 
 const async = require('async');
+const unit = require('../models/unit');
 
 exports.showAllUnits = (req, res, next) => {
   Unit.find()
@@ -135,9 +136,17 @@ exports.updateUnitPOST = [
 ];
 
 exports.deleteUnitGET = (req, res, next) => {
-  res.send('PENDING');
+  Unit.findById(req.params.id)
+    .populate('system')
+    .exec((err, unit) => {
+      if (err) return next(err);
+      res.render('unitDelete', {title: 'Delete Unit Data', unit});
+    });
 };
 
 exports.deleteUnitPOST = (req, res, next) => {
-  res.send('PENDING');
+  unit.findByIdAndRemove(req.body.id, err => {
+    if (err) return next(err);
+    res.redirect('/inventory/units');
+  });
 };
